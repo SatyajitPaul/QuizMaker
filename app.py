@@ -31,6 +31,11 @@ class Category(db.Model):
     def __repr__(self):
         return '<Category %r>' % self.name
 
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String(500), nullable=False)
+    outputcode = db.Column(db.Text(), nullable=False)
+
 db.create_all()
 
 @app.route("/")
@@ -77,6 +82,41 @@ def catagory():
 def allQuestion():
     questions = Question.query.all()
     return render_template('list-question.html', questions = questions)
-    
+
+@app.route("/create-quiz", methods=['POST', 'GET'])
+def createQuiz():
+    if request.method =='POST':
+        myApp = []
+        question = request.form.get('questionList')
+        queList = question.split()
+        for que in queList:
+            q = Question.query.filter_by(id=que).first()
+            question = q.question
+            option = json.loads(q.option)
+            answer = q.answer
+            que = {"question": question, "options": option,  "answer": answer}
+            myApp.append(que)
+        myApp = json.dumps(myApp)
+        queList = json.dumps(queList)
+        code = Quiz(question = queList, outputcode = myApp)
+        db.session.add(code)
+        db.session.commit()
+        return redirect('/quiz-list')
+    else:
+        return render_template('create-quiz.html')
+
+@app.route("/quiz-list")
+def quizList():
+    quiz = Quiz.query.all()
+    return render_template('list-quiz.html', quiz=quiz)
+
+@app.route("/view/<id>")
+def getCode(id):
+    q = Quiz.query.filter_by(id=id).first()
+    code = q.outputcode
+    return render_template('view-code.html', code=code)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

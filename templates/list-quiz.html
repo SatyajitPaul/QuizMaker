@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}DeshBoard{% endblock %}
+
+{% block content %}
+
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Get Code</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for q in quiz %}
+      <tr>
+        <th scope="row">{{ q.id }}</th>
+        <td><a href="/view/{{ q.id }}"><button type="button" class="btn btn-success">View</button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
