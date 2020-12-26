@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}DeshBoard{% endblock %}
+
+{% block content %}
+
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Question</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %}
+      <tr>
+        <th scope="row">{{ question.id }}</th>
+        <td>{{ question.question}}</td>
+        <td><button type="button" class="btn btn-success">Edit</button></td>
+        <td><button type="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}DeshBoard{% endblock %}
+
+{% block content %}
+
+
+<div class="card">
+  <h1 class="h2">Add Catagory</h1>
+  <div class="card-body">
+<form method="post">
+  
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" name="catagory" placeholder="Catagory Name">
+    </div>
+    
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Catagory</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for c in cat %}
+      <tr>
+        <th scope="row">{{ c.id }}</th>
+        <td>{{ c.name }}</td>
+        <td><button type="button" class="btn btn-success">Edit</button></td>
+        <td><button type="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+
+{% endblock %}
