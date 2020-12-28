@@ -11,7 +11,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.Text, nullable=False)
     option = db.Column(db.Text, nullable=False)
-    answer = db.Column(db.String(10), nullable=False)
+    answer = db.Column(db.Integer, nullable=False)
     pub_date = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
 
@@ -50,7 +50,7 @@ def addQuestion():
         opt2 = request.form.get('opt-1')
         opt3 = request.form.get('opt-2')
         opt4 = request.form.get('opt-3')
-        answer = request.form.get('rightAnswer')
+        answer = int(request.form.get('rightAnswer'))
         catagory = request.form.get('category')
         optList = [opt1, opt2, opt3, opt4]
         optList = json.dumps(optList)
@@ -114,6 +114,11 @@ def quizList():
 def getCode(id):
     q = Quiz.query.filter_by(id=id).first()
     code = q.outputcode
+    code = str(code).replace('"question"', "question")
+    code = str(code).replace('"options"', "options")
+    code = str(code).replace('"answer"', "answer")
+    code = str(code).replace('"', "'")
+    
     return render_template('view-code.html', code=code)
 
 
